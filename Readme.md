@@ -10,7 +10,7 @@
 ## 例子
 下图是利用该方法拟合曲线xcosx得到的结果
 
-![输入图片描述](sim-nng_md_files%5Ccapture_20210408200538326.bmp?v=1&type=image)
+![image](https://github.com/fpstatistics/SIM_NNG/blob/master/images/example.bmp)
 我们看到变量的正确选择使得函数拟合更加光滑，并且受到离群点的影响更加小。
 
 -----------------
