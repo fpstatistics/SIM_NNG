@@ -1,14 +1,24 @@
-## Problem setting
-In the nonparametric setting, we need to fit an curve, we suppose the data sampling from the mode $Y = m(X) + \epsilon$, where $X$ is predictors of dimension $d$, $\epsilon$ is a random error satisfying $E(\epsilon|X) = 0$ almost surely,  deep feed neural network is greately useful to fit the unkown function $m$, while we focus on the statistical non-parametric method to estimate $m$ since there are  rich and complete theoretical results. However the mean squared of any nonparametric estimator of a smooth (twice differentiable) curve will typically have mean squared error of the form  
-$$MSE \approx  \frac{c}{n^{4/(4+d)}}$$
-for some $c>0$
-If we want the mse to be equal to some small number δ, we can set $MSE = \delta$ and solve for n. We find that
-$$n \sim (\frac{c}{\delta})^{d/4}$$
-which grows exponentially with dimension d. Which called curse of dimensionality. The reason for this phenomenon is that smoothing involves estimating a function $m(x)$ using data points in a local neighborhood of $x$. But in a high dimensional problem, the data are very sparse, so local neighborhoods contain very few points.
-                                
-We want to learn an orientation $\theta$  adapts to the different data set, then use the length of  data projected onto this orientation to create nonparametric estimator, which escape the problem of curse of dimensionality. 
+# 提供一种半参数模型的变量选择方法
+## 问题
+在非参数估计中，最常见的任务就是拟合一个光滑函数，使用得最为广泛的方法如局部多项式估计(局部常数估计，局部线性估计)，它的损失函数通常定义为一个加权平方损失，该权重涉及到样本与待估计样本之间的距离，距离越近，该样本提供的损失就越大，距离越远，该样本提供的损失就越小。
 
-## Procedure
+在自变量的维度比较高的情况，为了使估计达到一定的精度，需要维度的指数阶那么多样本量，这是所谓的维度诅咒的问题，另外，高维度所带来的计算量也是十分庞大的
+## 方法
+所以我们需要学习一个最优投影方向，利用样本点投影到该方向之后来定义损失函数，这样就把高维的问题转化为一维的问题，从而避免了维度诅咒问题。
 
-$$\min \limits_{} \sum \limits_{j = 1}^{n} \sum \limits_{i = 1}^{n}\left[ y_i - a_j -  b_j \beta^T(z_i - z_j)\right]^2 \omega_{ij} + \lambda \sum \limits_{j=1}^{n} \left|b_j\right| \sum \limits_{k=1}^{p}\beta_k,
-$$
+传统的l1惩罚项在统计性质上具有缺陷，它对所有的变量给予相同的惩罚力度，这往往会导致不一致性。我们改进了惩罚方式，该惩罚方式类似adptive lasso，对不同的变量给予不同的惩罚力度，从而同时实现了投影方向的学习和稀疏性的实现。
+## 例子
+下图是利用该方法拟合曲线xcosx得到的结果
+
+![输入图片描述](sim-nng_md_files%5Ccapture_20210408200538326.bmp?v=1&type=image)
+我们看到变量的正确选择使得函数拟合更加光滑，并且受到离群点的影响更加小。
+
+-----------------
+## 需要使用到的package
+- numpy 
+- scipy
+- sklearn
+
+
+
+
